@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 public class MysqlWrapper {
 
+	//TODO move config to config
 //	static final String URL = "jdbc:mysql://127.0.0.1:3306/searcher?useUnicode=true&characterEncoding=UTF-8";
 	static final String URL = "jdbc:mysql://192.168.2.99:3306/searcher?useUnicode=true&characterEncoding=UTF-8";
 	static final String USER = "searcher";

@@ -8,12 +8,14 @@ import java.util.ArrayList;
 public class jPapaya {
 
 	/**
-	 * Metoda główna
+	 * Main method
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
+		//TODO find out what the hell this thing was supposed to do
+		/*
 		String path = jPapaya.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		try {
 			String decodedPath = URLDecoder.decode(path, "UTF-8");
@@ -26,8 +28,7 @@ public class jPapaya {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		
+		*/
 		
 		System.out.println("Start");
 
