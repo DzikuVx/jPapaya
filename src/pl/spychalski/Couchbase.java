@@ -7,16 +7,11 @@ import pl.papaya.bot.Config;
 
 import net.spy.memcached.MemcachedClient;
 
-/**
- * @brief Simple wrapper over net.spy.memcached.MemcachedClient
- * @author Pawel
- *
- */
-public class Memcached {
+public class Couchbase {
 
-	private static int Length = 3600;
+	private static int Length = 0;
 
-	private static Memcached instance = null;
+	private static Couchbase instance = null;
 
 	private MemcachedClient cache = null;
 
@@ -24,13 +19,13 @@ public class Memcached {
 	 * Returns class instance
 	 * @return
 	 */
-	final public static Memcached getInstance() {
+	final public static Couchbase getInstance() {
 
-		if (Memcached.instance == null) {
-			Memcached.instance = new Memcached();
+		if (Couchbase.instance == null) {
+			Couchbase.instance = new Couchbase();
 		}
 
-		return Memcached.instance;
+		return Couchbase.instance;
 	}
 
 	final public Object get(String key) {
@@ -45,7 +40,7 @@ public class Memcached {
 	 */
 	final public Boolean set(String key, Object data) {
 
-		this.set(key, data, Memcached.Length);
+		this.set(key, data, Couchbase.Length);
 		
 		return true;
 	}
@@ -59,7 +54,7 @@ public class Memcached {
 	 */
 	final public Boolean set(String key, Object data, int length) {
 
-		this.cache.set(key, length, data);
+		this.cache.set(key, length, data).getStatus();
 
 		return true;
 	}
@@ -67,10 +62,10 @@ public class Memcached {
 	/**
 	 * Private contructor
 	 */
-	private Memcached() {
+	private Couchbase() {
 
 		try {
-			this.cache = new MemcachedClient( new InetSocketAddress(Config.getInstance().get("MemcachedServer"), Integer.parseInt(Config.getInstance().get("MemcachedPort"))));
+			this.cache = new MemcachedClient( new InetSocketAddress(Config.getInstance().get("CouchbaseServer"), Integer.parseInt(Config.getInstance().get("CouchbasePort"))));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(0);

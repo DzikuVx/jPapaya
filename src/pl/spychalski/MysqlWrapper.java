@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import pl.papaya.bot.Config;
+
 public class MysqlWrapper {
 
-//	static final String URL = "jdbc:mysql://127.0.0.1:3306/searcher?useUnicode=true&characterEncoding=UTF-8";
-	static final String URL = "jdbc:mysql://192.168.2.99:3306/searcher?useUnicode=true&characterEncoding=UTF-8";
 	static final String USER = "searcher";
 	static final String PASSWORD = "searcher";
 	static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -32,7 +32,10 @@ public class MysqlWrapper {
 
 		try {
 			Class.forName(DRIVER);
-			this.con = DriverManager.getConnection(URL, USER, PASSWORD);
+			this.con = DriverManager.getConnection(
+					Config.getInstance().get("MySQLConnString"), Config
+							.getInstance().get("MySQLUser"), Config
+							.getInstance().get("MySQLPassword"));
 
 			Statement statement;
 

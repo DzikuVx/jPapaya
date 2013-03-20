@@ -1,7 +1,5 @@
 package pl.papaya.bot;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -14,6 +12,9 @@ public class jPapaya {
 	 */
 	public static void main(String[] args) {
 
+		/*
+		 TODO find out what it does
+		 
 		String path = jPapaya.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		try {
 			String decodedPath = URLDecoder.decode(path, "UTF-8");
@@ -26,8 +27,11 @@ public class jPapaya {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		*/
 		
-		
+//		Couchbase.getInstance().set("etastrng", "A to co to? ha ha ha");
+//		System.out.println(Couchbase.getInstance().get("etastrng"));
+//		System.exit(0);
 		
 		System.out.println("Start");
 

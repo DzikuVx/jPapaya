@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.Random;
 import java.net.URL;
 
+import pl.spychalski.Couchbase;
 import pl.spychalski.Memcached;
 import pl.spychalski.MysqlWrapper;
 import pl.spychalski.Utils;
 
+import com.google.gson.Gson;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 public final class Datamodel {
@@ -235,37 +237,50 @@ public final class Datamodel {
 		return true;
 	}
 
-	final public void saveKeywords(String sUrl, String sTitle, String sKeywords)
-			throws ForceErrorException, SQLException {
-
-		PreparedStatement prepared;
-
-		prepared = this.con
-				.prepareStatement("INSERT INTO keywords (`Hash`,Title,Keywords) VALUES (?,?,?) ON DUPLICATE KEY UPDATE Title=?, Keywords=?");
-
+	private void saveKeywordsCouchbase(String sUrl, String sTitle, String sKeywords) {
+		Keyword myKeyword =  new Keyword(sUrl, sTitle, sKeywords);
+		
+		Gson gson = new Gson();
+		
+		String json = gson.toJson(myKeyword);
+		
+		Couchbase.getInstance().set("keyword_" + myKeyword.Hash, json);
+	}
+	
+	private void saveKeywordsMySQL(String sUrl, String sTitle, String sKeywords) throws ForceErrorException, SQLException {
 		int iCut;
-
-		prepared.setString(1, Utils.MD5(sUrl));
-
 		if (sTitle.length() > 128) {
 			iCut = 128;
 		} else {
 			iCut = sTitle.length();
 		}
-		prepared.setString(2, sTitle.substring(0, iCut));
-		prepared.setString(4, sTitle.substring(0, iCut));
+		sTitle = sTitle.substring(0, iCut);
+		
+		PreparedStatement prepared;
 
-		if (sKeywords.length() > 8192) {
-			iCut = 8192;
-		} else {
-			iCut = sKeywords.length();
-		}
-		prepared.setString(3, sKeywords.substring(0, iCut));
-		prepared.setString(5, sKeywords.substring(0, iCut));
+		prepared = this.con
+				.prepareStatement("INSERT INTO keywords (`Hash`,Title,Keywords) VALUES (?,?,?) ON DUPLICATE KEY UPDATE Title=?, Keywords=?");
+
+
+		prepared.setString(1, Utils.MD5(sUrl));
+
+		prepared.setString(2, sTitle);
+		prepared.setString(4, sTitle);
+
+		prepared.setString(3, sKeywords);
+		prepared.setString(5, sKeywords);
 
 		prepared.executeUpdate();
 		prepared.close();
+	}
+	
+	final public void saveKeywords(String sUrl, String sTitle, String sKeywords) throws ForceErrorException, SQLException{
 
+		/*
+		 * Save to couchbase
+		 */
+		this.saveKeywordsCouchbase(sUrl, sTitle, sKeywords);
+		
 	}
 
 	// FIXME namierzyć co powoduje duplikację kluczy
