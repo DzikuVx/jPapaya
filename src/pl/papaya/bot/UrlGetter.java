@@ -35,6 +35,10 @@ final public class UrlGetter {
 
 	}
 
+	/**
+	 * @brief Gets single link from queue
+	 * @return
+	 */
 	final public Link get()  {
 
 		Link retVal = null;

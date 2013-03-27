@@ -29,10 +29,6 @@ public class jPapaya {
 		}
 		*/
 		
-//		Couchbase.getInstance().set("etastrng", "A to co to? ha ha ha");
-//		System.out.println(Couchbase.getInstance().get("etastrng"));
-//		System.exit(0);
-		
 		System.out.println("Start");
 
 		int botCount = Integer.parseInt(Config.getInstance().get("BotCount"));
@@ -42,6 +38,8 @@ public class jPapaya {
 
 		ArrayList<Bot> threadList = new ArrayList<Bot>();
 
+		System.out.println("Spawning " + botCount + " bots");
+		
 		try {
 
 			for (int i = 0; i < botCount; i++) {

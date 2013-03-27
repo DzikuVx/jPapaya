@@ -171,7 +171,7 @@ public final class Datamodel {
 			prepared.close();
 
 		} catch (MySQLIntegrityConstraintViolationException e) {
-			// powtórzony klucz, zignoruj ten błąd
+			//duplicated key, link map already exists, ignire this exception
 		} catch (Exception e) {
 			ErrorLog.getInstance().write(
 					"Datamodel.saveInboundLink: " + source + " :" + target
