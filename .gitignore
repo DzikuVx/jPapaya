@@ -2,6 +2,10 @@
 ## Eclipse
 #################
 
+.idea/
+jPapaya.iml
+out/
+
 *.pydevproject
 .project
 .metadata
